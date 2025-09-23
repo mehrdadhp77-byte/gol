@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>پخش تصادفی موزیک</title>
+  <style>
+    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;direction:rtl;padding:24px;display:flex;gap:16px;align-items:center;justify-content:center;height:100vh;background:#f7f7fb}
+    .card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(20,20,40,0.06);max-width:480px;width:100%;text-align:center}
+    button{padding:10px 14px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>پخش تصادفی آهنگ</h2>
+    <p id="status">در حال آماده‌سازی…</p>
+
+    <audio id="player" controls></audio>
+    <div style="margin-top:12px">
+      <button id="playRandom">پخش تصادفی</button>
+      <button id="next">آهنگ بعدی</button>
+    </div>
+    <p style="margin-top:10px;font-size:13px;color:#666">اگر پخش نشد، روی دکمه «پخش تصادفی» بزنید.</p>
+  </div>
+
+  <script>
+    const songs = [
+      "https://raw.githubusercontent.com/mehrdadhp77-byte/gol/main/@HipHopFree%20-%20Jealous%20-%20Arta%2C%20Koorosh.mp3",
+      "https://raw.githubusercontent.com/mehrdadhp77-byte/gol/main/@RapiWar%20-%20Mehyad%20-%20Game%20Of%20Tehroon.mp3",
+      "https://raw.githubusercontent.com/mehrdadhp77-byte/gol/main/@RapiWar%20-%20Poobon%20%26%20Arta%20-%20Ki.mp3",
+      "https://raw.githubusercontent.com/mehrdadhp77-byte/gol/main/@RapiWar_Sleep_Mood_Sajad_Shahi_Matin_Fattahi_Ali_Geramy_Dorcci.mp3"
+    ];
+
+    const player = document.getElementById('player');
+    const status = document.getElementById('status');
+    const playBtn = document.getElementById('playRandom');
+    const nextBtn = document.getElementById('next');
+
+    function pickRandomIndex(){
+      if(!songs.length) return -1;
+      return Math.floor(Math.random() * songs.length);
+    }
+
+    function playRandom(){
+      const idx = pickRandomIndex();
+      if(idx === -1){
+        status.textContent = 'لیست آهنگ‌ها خالی است.';
+        return;
+      }
+      const url = songs[idx];
+      player.src = url;
+      player.play().catch(()=>{ status.textContent = 'برای پخش، دکمه پخش را بزنید.'; });
+      status.textContent = در حال پخش: آهنگ شماره ${idx+1};
+    }
+
+    playBtn.addEventListener('click', playRandom);
+
+    nextBtn.addEventListener('click', ()=>{
+      if(songs.length <= 1) return playRandom();
+      let last = player.src;
+      let idx, tries=0;
+      do { idx = pickRandomIndex(); tries++; }
+      while(songs[idx] === last && tries<10);
+      player.src = songs[idx];
+      player.play().catch(()=>{ status.textContent = 'برای پخش، دکمه پخش را بزنید.'; });
+      status.textContent = در حال پخش: آهنگ شماره ${idx+1};
+    });
+
+    player.addEventListener('ended', ()=> setTimeout(playRandom,400));
+  </script>
+</body>
+</html>
