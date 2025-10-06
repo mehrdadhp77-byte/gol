@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Music Player</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    audio {
+      margin-top: 20px;
+      width: 90%;
+      max-width: 400px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #1db954;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #18a84b;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎶 Random Music Player</h1>
+  <p>هر بار کلیک کنی یه آهنگ تصادفی پخش میشه 🎧</p>
+
+  <audio id="player" controls autoplay></audio>
+  <button onclick="playRandom()">▶️ آهنگ تصادفی</button>
+
+  <script>
+    const songs = [
+      "https://github.com/mehrdadhp77-byte/gol/raw/refs/heads/main/@HipHopFree%20-%20Jealous%20-%20Arta,%20Koorosh.mp3",
+      "https://github.com/mehrdadhp77-byte/gol/raw/refs/heads/main/@RapiWar%20-%20Mehyad%20-%20Game%20Of%20Tehroon.mp3",
+      "https://github.com/mehrdadhp77-byte/gol/raw/refs/heads/main/@RapiWar%20-%20Poobon%20&%20Arta%20-%20Ki.mp3",
+      "https://github.com/mehrdadhp77-byte/gol/raw/refs/heads/main/@RapiWar_Sleep_Mood_Sajad_Shahi_Matin_Fattahi_Ali_Geramy_Dorcci.mp3"
+    ];
+
+    const player = document.getElementById("player");
+
+    function playRandom() {
+      const randomIndex = Math.floor(Math.random() * songs.length);
+      player.src = songs[randomIndex];
+      player.play();
+    }
+
+    // پخش آهنگ تصادفی هنگام باز شدن صفحه
+    playRandom();
+  </script>
+</body>
+  </html>
